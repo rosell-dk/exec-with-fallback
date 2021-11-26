@@ -1,4 +1,9 @@
 # Exec
+
+[![Build Status](https://img.shields.io/github/workflow/status/rosell-dk/exec/PHP?logo=GitHub&style=flat-square)](https://github.com/rosell-dk/exec/actions/workflows/php.yml)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/rosell-dk/exec/blob/master/LICENSE)
+
+
 Execute command with *exec()*, *open_proc()* or whatever available
 
 If `exec()` is available, it simply uses that method. Otherwise:

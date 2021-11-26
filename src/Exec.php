@@ -1,5 +1,6 @@
 <?php
 namespace Exec;
+
 use \Exec\Executors\ExecExecutor;
 use \Exec\Executors\ProcOpenExecutor;
 
@@ -11,7 +12,8 @@ use \Exec\Executors\ProcOpenExecutor;
  */
 class Exec
 {
-    public static function createExecutor($executorId) {
+    public static function createExecutor($executorId)
+    {
         switch ($executorId) {
             case 'exec':
                 return new ExecExecutor();
@@ -30,7 +32,8 @@ class Exec
      * @return \Exec\ExecResult   The result
      * @throws \Exec\ExecException  If executor is unavailable
      */
-    public static function execUsing($command, $executorId) {
+    public static function execUsing($command, $executorId)
+    {
         $executor = self::createExecutor($executorId);
         if ($executor->available()) {
             return $executor->exec($command);
@@ -45,7 +48,8 @@ class Exec
      *
      * @return \Exec\ExecResult The result
      */
-    public static function execUsingFirstAvailable($command, $executorIds) {
+    public static function execUsingFirstAvailable($command, $executorIds)
+    {
         foreach ($executorIds as $executorId) {
             try {
                 return self::execUsing($command, $executorId);
@@ -53,7 +57,9 @@ class Exec
                 // ignore.
             }
         }
-        throw new ExecException('Cannot execute command. All these methods are unavailable: ' . implode(', ', $executorIds));
+        throw new ExecException(
+            'Cannot execute command. All these methods are unavailable: ' . implode(', ', $executorIds)
+        );
     }
 
     /**
@@ -63,8 +69,8 @@ class Exec
      *
      * @return \Exec\ExecResult The result
      */
-    public static function exec($command) {
+    public static function exec($command)
+    {
         return self::execUsingFirstAvailable($command, ['exec', 'proc_open']);
     }
-
 }

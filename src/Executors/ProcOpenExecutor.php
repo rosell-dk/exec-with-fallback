@@ -1,6 +1,7 @@
 <?php
 
 namespace Exec\Executors;
+
 use \Exec\ExecResult;
 
 /**
@@ -19,7 +20,8 @@ class ProcOpenExecutor extends BaseExecutor
    *
    * @return \Exec\ExecResult The result
    */
-    public function exec($command) {
+    public function exec($command)
+    {
         $descriptorspec = array(
             0 => array("pipe", "r"),
             1 => array("pipe", "w"),
@@ -31,7 +33,6 @@ class ProcOpenExecutor extends BaseExecutor
         $processHandle = proc_open($command, $descriptorspec, $pipes, $cwd);
         $result = "";
         if (is_resource($processHandle)) {
-
             // Got this solution here:
             // https://stackoverflow.com/questions/5673740/php-or-apache-exec-popen-system-and-proc-open-commands-do-not-execute-any-com
             fclose($pipes[0]);
@@ -95,10 +96,10 @@ class ProcOpenExecutor extends BaseExecutor
     /**
      * Check if the required library/function is available
      *
-     * @return \Exec\ExecResult The result
+     * @return bool if the function is available
      */
-    public function available() {
+    public function available()
+    {
         return (function_exists('proc_open'));
     }
-
 }

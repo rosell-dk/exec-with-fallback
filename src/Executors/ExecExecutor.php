@@ -1,6 +1,7 @@
 <?php
 
 namespace Exec\Executors;
+
 use \Exec\ExecResult;
 
 /**
@@ -19,7 +20,8 @@ class ExecExecutor extends BaseExecutor
    *
    * @return \Exec\ExecResult The result
    */
-    public function exec($command) {
+    public function exec($command)
+    {
         exec($command, $output, $returnCode);
         return new ExecResult($output, intval($returnCode));
     }
@@ -27,10 +29,10 @@ class ExecExecutor extends BaseExecutor
     /**
      * Check if the required library/function is available
      *
-     * @return \Exec\ExecResult The result
+     * @return bool if the function is available
      */
-    public function available() {
+    public function available()
+    {
         return (function_exists('exec'));
     }
-
 }

@@ -1,7 +1,6 @@
 <?php
 namespace Exec;
 
-
 /**
  * The result of an execution
  *
@@ -24,7 +23,8 @@ class ExecResult
     /**
      * Create a new ExecResult object
      *
-     * @param string $command  The command to execute
+     * @param array $output      Output (StdOut)
+     * @param int   $returnCode
      *
      * @return \Exec\ExecResult The result
      */
@@ -53,5 +53,4 @@ class ExecResult
     {
         return $this->returnCode;
     }
-
 }

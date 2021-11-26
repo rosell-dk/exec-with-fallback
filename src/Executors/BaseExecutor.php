@@ -23,8 +23,7 @@ abstract class BaseExecutor
     /**
      * Check if the required library/function is available
      *
-     * @return \Exec\ExecResult The result
+     * @return bool if the function is available
      */
     abstract protected function available();
-
 }

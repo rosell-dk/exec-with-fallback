@@ -22,7 +22,7 @@ $result = Exec::exec('echo "hi"', $output, $result_code);
 // $result_code (int) now holds the result code
 // $return (string | false) is now false in case of failure or the last line of the output
 ```
-In case of failure due to unavailablity, an ExecException is thrown. The rationale is that exec() throws it is not available and we want to mimic that behavior. ExecException is a subclass of Exception. I'm considering to throw another exception, which is subclass of Error for PHP 7 and above, again to mimic behavior, so your catch clauses works as usual.
+In case of failure due to unavailablity, an ExecException is thrown. The rationale is that exec() throws when the function is disabled and we want to mimic that behavior. ExecException is a subclass of Exception, so it will be catched in your existing `catch(\Exception $e)` clause, if you have. I'm planning to throw another exception, which is subclass of Error for PHP 7 and above, again to mimic behavior of exec(), which throws Error instead of Exception in PHP 7 and above
 
 Here is an example where we use `Exec:execute()` instead of `Exec:exec()` in order to get better code readability:
 

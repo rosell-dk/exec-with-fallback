@@ -45,3 +45,8 @@ Perhaps check `ini_get('disable_functions')` too ?
 https://stackoverflow.com/questions/3938120/check-if-exec-is-disabled
 https://stackoverflow.com/questions/2749591/php-exec-check-if-enabled-or-disabled
 https://www.py4u.net/discuss/26911
+
+# passthrough
+https://www.php.net/manual/en/function.passthru.php
+
+#system

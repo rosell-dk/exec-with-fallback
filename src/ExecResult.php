@@ -21,10 +21,16 @@ class ExecResult
     protected $returnCode;
 
     /**
+     * @var bool
+     */
+    public $failure;
+
+
+    /**
      * Create a new ExecResult object
      *
-     * @param array $output      Output (StdOut)
-     * @param int   $returnCode
+     * @param array     $output      Output (StdOut)
+     * @param int|null  $returnCode  The return code, or null if unavailable
      *
      * @return \Exec\ExecResult The result
      */
@@ -32,6 +38,7 @@ class ExecResult
     {
         $this->output = $output;
         $this->returnCode = $returnCode;
+        $this->failure = false;
     }
 
     /**

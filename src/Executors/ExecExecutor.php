@@ -22,8 +22,15 @@ class ExecExecutor extends BaseExecutor
    */
     public function exec($command)
     {
-        exec($command, $output, $returnCode);
-        return new ExecResult($output, intval($returnCode));
+        $output = [];
+        $returnCode;
+        $lastLineOrFalse = exec($command, $output, $returnCode);
+
+        $result = new ExecResult($output, $returnCode);
+        if ($lastLineOrFalse === false) {
+            $result->failure = true;
+        }
+        return $result;
     }
 
     /**

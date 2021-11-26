@@ -32,7 +32,7 @@ class Exec
      * @return \Exec\ExecResult   The result
      * @throws \Exec\ExecException  If executor is unavailable
      */
-    public static function execUsing($command, $executorId)
+    public static function executeUsing($command, $executorId)
     {
         $executor = self::createExecutor($executorId);
         if ($executor->available()) {
@@ -48,11 +48,11 @@ class Exec
      *
      * @return \Exec\ExecResult The result
      */
-    public static function execUsingFirstAvailable($command, $executorIds)
+    public static function executeUsingFirstAvailable($command, $executorIds)
     {
         foreach ($executorIds as $executorId) {
             try {
-                return self::execUsing($command, $executorId);
+                return self::executeUsing($command, $executorId);
             } catch (ExecException $e) {
                 // ignore.
             }
@@ -69,8 +69,37 @@ class Exec
      *
      * @return \Exec\ExecResult The result
      */
-    public static function exec($command)
+    public static function execute($command)
     {
-        return self::execUsingFirstAvailable($command, ['exec', 'proc_open']);
+        return self::executeUsingFirstAvailable($command, ['exec', 'proc_open']);
+    }
+
+    /**
+     * Execute. - A substitute for exec()
+     *
+     * Same signature and results as exec(): https://www.php.net/manual/en/function.exec.php
+     *
+     * @param string $command  The command to execute
+     * @param string &$output (optional)
+     * @param int &$result_code (optional)
+     *
+     * @return string | false   The last line of output or false in case of failure
+     */
+    public static function exec($command, &$output = null, &$result_code = null)
+    {
+        $result = self::executeUsingFirstAvailable($command, ['exec', 'proc_open']);
+        if (!is_null($output)) {
+            foreach ($result->getOutput() as $line) {
+                $output[] = $line;
+            }
+        }
+        $result_code = $result->getReturnCode();
+        if ($result->failure) {
+            return false;
+        }
+        if (count($result->getOutput()) == 0) {
+            return '';
+        }
+        return $result[count($result) -1];
     }
 }

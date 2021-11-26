@@ -50,3 +50,6 @@ https://www.py4u.net/discuss/26911
 https://www.php.net/manual/en/function.passthru.php
 
 #system
+
+
+Should I call the library ExecWithBackup or something like that instead? - nah, only if I find a better name than that

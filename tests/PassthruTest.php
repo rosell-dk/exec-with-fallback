@@ -8,4 +8,9 @@ class PassthruTest extends BaseTest
 {
 
     public $className = 'Passthru';
+
+    public function isAvailable()
+    {
+        return function_exists('passthru');      
+    }
 }

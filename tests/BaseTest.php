@@ -12,6 +12,18 @@ class BaseTest extends TestCase
 {
     public $className = '';
 
+    public function checkAvailability()
+    {
+        $this->assertEquals(0, 0);    // to awoid warnings about risky tests
+        return $this->isAvailable();
+    }
+
+    public function isAvailable()
+    {
+        $this->assertEquals(0, 0);
+        return function_exists('exec');
+    }
+
     public function runExec($command, &$output = null, &$return_code = null)
     {
       //echo "\n" . 'Running:' . $this->className;
@@ -51,63 +63,96 @@ class BaseTest extends TestCase
 
     public function testNoReturnCodeSupplied()
     {
-        $output = [];
-        $execResult = $this->runExec('echo hi', $output);
-        $this->assertEquals('hi', $execResult);
+        if ($this->checkAvailability()) {
+            $output = [];
+            $execResult = $this->runExec('echo hi', $output);
+            $this->assertEquals('hi', $execResult);
+        }
     }
 
     public function testNoOutputSupplied()
     {
-        $result = $this->runExec('echo hi');
-        $this->assertEquals('hi', $result);
+        if ($this->checkAvailability()) {
+            $result = $this->runExec('echo hi');
+            $this->assertEquals('hi', $result);
+        }
     }
 
     public function testTwoLines()
     {
-        $result = $this->runExec('echo "hi" && echo "world"', $output, $return_code);
-        $this->assertEquals(0, $return_code);
-        $this->assertEquals('world', $result);
-        $this->assertEquals(count($output), 2, print_r($output, true));
-        $this->assertEquals($output[0], 'hi');
-        $this->assertEquals($output[1], 'world');
+        if ($this->checkAvailability()) {
+            $result = $this->runExec('echo hi && echo world', $output, $return_code);
+            $this->assertEquals(0, $return_code);
+            $this->assertEquals('world', $result);
+            $this->assertEquals(count($output), 2, print_r($output, true));
+            $this->assertEquals($output[0], 'hi');
+            $this->assertEquals($output[1], 'world');
+        }
     }
 
     public function testOutputIsInt()
     {
-        $output = 10;
-        $result = $this->runExec('echo "hi"', $output, $return_code);
-        $this->assertEquals(0, $return_code);
-        $this->assertEquals('hi', $result);
-        $this->assertEquals('array', gettype($output));
-        $this->assertEquals($output[0], 'hi');
+        if ($this->checkAvailability()) {
+            $output = 10;
+            $result = $this->runExec('echo hi', $output, $return_code);
+            $this->assertEquals(0, $return_code);
+            $this->assertEquals('hi', $result);
+            $this->assertEquals('array', gettype($output));
+            $this->assertEquals($output[0], 'hi');
+        }
     }
 
     public function testOutputIsString()
     {
-        $output = 'abc';
-        $result = $this->runExec('echo "hi"', $output, $return_code);
-        $this->assertEquals(0, $return_code);
-        $this->assertEquals('hi', $result);
-        $this->assertEquals('array', gettype($output));
-        $this->assertEquals('hi', $output[0]);
+        if ($this->checkAvailability()) {
+            $output = 'abc';
+            $result = $this->runExec('echo hi', $output, $return_code);
+            $this->assertEquals(0, $return_code);
+            $this->assertEquals('hi', $result);
+            $this->assertEquals('array', gettype($output));
+            $this->assertEquals('hi', $output[0]);
+        }
     }
 
     public function testOutputIsExistingArray()
     {
-        $output = ['abc'];
-        $result = $this->runExec('echo "hi"', $output, $return_code);
-        $this->assertEquals(0, $return_code);
-        $this->assertEquals('hi', $result);
-        $this->assertEquals('array', gettype($output));
-        $this->assertEquals('abc', $output[0]);
-        $this->assertEquals('hi', $output[1]);
+        if ($this->checkAvailability()) {
+            $output = ['abc'];
+            $result = $this->runExec('echo hi', $output, $return_code);
+            $this->assertEquals(0, $return_code);
+            $this->assertEquals('hi', $result);
+            $this->assertEquals('array', gettype($output));
+            $this->assertEquals('abc', $output[0]);
+            $this->assertEquals('hi', $output[1]);
+        }
     }
 
     public function testUnknownCommand()
     {
-        $result = $this->runExec('aoebuaoeu', $output, $return_code);
-        $this->assertEquals(127, $return_code);
-        $this->assertEquals('', $result);
+        if ($this->checkAvailability()) {
+            $result = $this->runExec('aoebuaoeu', $output, $return_code);
+            $this->assertEquals(127, $return_code);
+            $this->assertEquals('', $result);
+        }
+    }
+
+    public function testWhenUnavailable()
+    {
+        if ($this->isAvailable()) {
+            $this->assertEquals(0, 0);
+        } else {
+            $hasThrown = false;
+            //$result = $this->runExec('echo "hi"', $output, $return_code);
+            try {
+                $result = $this->runExec('echo hi', $output, $return_code);
+            } catch (\Exception $e) {
+                $hasThrown = true;
+            } catch (\Throwable $e) {
+                $hasThrown = true;
+            }
+            $this->assertEquals(true, $hasThrown, "Expected it to throw when unavailable");
+        }
+
     }
 
     /*

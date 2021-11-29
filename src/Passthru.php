@@ -35,8 +35,8 @@ class Passthru
         }
         $result = ob_get_clean();
 
-        //$theOutput = preg_split("/[\n\r]+/", trim($result));
-        $theOutput = explode(PHP_EOL, trim($result));
+        $theOutput = preg_split("/[\n\r]+/", rtrim(trim($result, "\n\r")));
+        //$theOutput = explode(PHP_EOL, trim($result, PHP_EOL));
         if (count($theOutput) == 0) {
             return '';
         }

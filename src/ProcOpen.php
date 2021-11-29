@@ -40,8 +40,8 @@ class ProcOpen
             fclose($pipes[1]);
             //fclose($pipes[2]);
             $result_code = proc_close($processHandle);
-            $theOutput = explode(PHP_EOL, trim($result));
-            //return new ExecResult($output, intval($returnCode));
+            $theOutput = preg_split("/[\n\r]+/", rtrim(trim($result, "\n\r")));
+            //$theOutput = explode(PHP_EOL, trim($result, PHP_EOL));
             if (count($theOutput) == 0) {
                 return '';
             }

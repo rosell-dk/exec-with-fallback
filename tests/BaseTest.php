@@ -85,8 +85,22 @@ class BaseTest extends TestCase
             $this->assertEquals(0, $return_code);
             $this->assertEquals('world', $result);
             $this->assertEquals(count($output), 2, print_r($output, true));
-            $this->assertEquals($output[0], 'hi');
-            $this->assertEquals($output[1], 'world');
+            $this->assertEquals('hi', trim($output[0]));  // "hi " on windows, using exec()
+            $this->assertEquals('world', $output[1]);
+        }
+    }
+
+    public function testWhiteSpace()
+    {
+        if ($this->checkAvailability()) {
+            $result = $this->runExec('echo " hi "', $output, $return_code);
+            $this->assertThat(
+                $result,
+                $this->logicalOr(
+                    $this->identicalTo(' hi'),     // Linux
+                    $this->identicalTo('" hi "')   // Windows
+                )
+            );
         }
     }
 
@@ -131,7 +145,7 @@ class BaseTest extends TestCase
     {
         if ($this->checkAvailability()) {
             $result = $this->runExec('aoebuaoeu', $output, $return_code);
-            $this->assertEquals(127, $return_code);
+            $this->assertNotEquals(0, $return_code);  // 127 on linux, 1 on windows
             $this->assertEquals('', $result);
         }
     }

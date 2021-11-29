@@ -136,6 +136,18 @@ class BaseTest extends TestCase
         }
     }
 
+    public function testIsAvailable()
+    {
+        // The purpose of this test is merely to inform
+        echo $this->className . function_exists('proc_open') ? 'yes' : 'no';
+        if ($this->isAvailable()) {
+        } else {
+            echo "\nNote: " . ($this->className ? $this->className : 'exec()') . ' is not tested, as it is unavailable';
+        }
+        $this->assertEquals(0, 0);
+
+    }
+
     public function testWhenUnavailable()
     {
         if ($this->isAvailable()) {

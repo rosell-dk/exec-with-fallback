@@ -28,12 +28,15 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
         extensions: mbstring
+        ini-values: disable_functions="exec,passthru"
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
     - name: Run test suite
       run: composer run-script test
+
+
 
     - name: php --version
       run: |

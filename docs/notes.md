@@ -49,6 +49,42 @@ https://www.py4u.net/discuss/26911
 # passthrough
 https://www.php.net/manual/en/function.passthru.php
 
+According to this, you cannot store in variable:
+https://stackoverflow.com/questions/732832/php-exec-vs-system-vs-passthru
+
+However, it can be done with output buffering:
+```
+function yemenEx($in)
+{
+    $out = '';
+    if (function_exists('exec')) {
+        @exec($in, $out);
+        $out = @join("\n", $out);
+    } elseif (function_exists('passthru')) {
+        ob_start();
+        @passthru($in);
+        $out = ob_get_clean();
+    } elseif (function_exists('system')) {
+        ob_start();
+        @system($in);
+        $out = ob_get_clean();
+    } elseif (function_exists('shell_exec')) {
+        $out = shell_exec($in);
+    } elseif (is_resource($f = @popen($in, "r"))) {
+        $out = "";
+        while (!@feof($f)) {
+            $out .= fread($f, 1024);
+        }
+        pclose($f);
+    }
+    return $out;
+}
+```
+(got it from here: https://hotexamples.com/examples/-/-/passthru/php-passthru-function-examples.html)
+
+
+
+
 #system
 
 

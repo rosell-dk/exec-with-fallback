@@ -4,9 +4,8 @@ namespace ExecWithFallback\Tests;
 use PHPUnit\Framework\TestCase;
 
 
-class ExecTest extends BaseTest
+class PassthruTest extends BaseTest
 {
 
-    public $className = '';
-
+    public $className = 'Passthru';
 }

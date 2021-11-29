@@ -1,9 +1,9 @@
 {
-  "name": "rosell-dk/exec",
+  "name": "rosell-dk/exec-with-fallback",
   "description": "Execute command with exec(), open_proc() or whatever available",
   "type": "library",
   "license": "MIT",
-  "keywords": ["exec", "open_proc", "command"],
+  "keywords": ["exec", "open_proc", "command", "fallback", "sturdy", "resiliant"],
   "scripts": {
     "ci": [
       "@test",
@@ -38,10 +38,10 @@
       }
   },
   "autoload": {
-    "psr-4": { "Exec\\": "src/" }
+    "psr-4": { "ExecWithFallback\\": "src/" }
   },
   "autoload-dev": {
-    "psr-4": { "Exec\\Tests\\": "tests/" }
+    "psr-4": { "ExecWithFallback\\Tests\\": "tests/" }
   },
   "authors": [
     {

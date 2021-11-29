@@ -53,3 +53,27 @@ https://www.php.net/manual/en/function.passthru.php
 
 
 Should I call the library ExecWithBackup or something like that instead? - nah, only if I find a better name than that
+
+
+# What should this be called?
+Simply what it does:
+- ExecWithFallback
+- ExecOrSimilar
+- TryHarderExec / ExecTryHarder
+
+The rat finds its way… And dont give up easily. Tries different ways
+- ExecRat / RatExec
+
+Eller navngiv efter Wolfe, “the fixer” i Pulp Fiction - a no nonense charactor who gets the job done (with style)
+- WolfeExec / ExecWolfe
+
+Nationality:
+- GermanExec
+- DanishExec
+
+Material:
+- RubberExec
+- RubberbandExec
+
+Other ideas:
+StrongExec, ResilientExec, EmulatedExec, GoalOrientedExec, ExecContractor, ExecDeLuxe, DropInExec, BetterExec, ExecMaster, ExecDragon, CuteExec, PersistantExec, ToughExec, ExecWithFallback, AdaptableExec, CompliantExec, ImprovedExec, ResoluteExec, StautExec, ObstinateExec, KeenExec, AgileExec, Smooth, Flexible, ExecAndFriends, SturdyExex, ResilientExec

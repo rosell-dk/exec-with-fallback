@@ -35,17 +35,36 @@ jobs:
     - name: Run test suite
       run: composer run-script test
 
-    - name: Re-setup PHP with disable_functions set in php.ini
+    - name: php --version
+      run: |
+        php -i
+        php -m
+
+  run2:
+    name: Run
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, windows-2019]
+        php: [8.0]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Setup PHP (disable_functions)
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php }}
         extensions: mbstring
         ini-values: disable_functions="exec,passthru"
 
-    - name: Re-run test suite, with disabled functions
-      run: composer run-script test
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
 
-    - name: php --version
-      run: |
-        php -i
-        php -m
+    - name: Run test suite
+      run: composer run-script test

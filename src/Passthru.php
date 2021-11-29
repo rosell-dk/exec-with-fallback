@@ -23,7 +23,16 @@ class Passthru
     public static function exec($command, &$output = null, &$result_code = null)
     {
         ob_start();
-        passthru($command, $result_code);
+        // Note: We use try/catch in order to close output buffering in case it throws
+        try {
+            passthru($command, $result_code);
+        } catch (\Exception $e) {
+            ob_get_clean();
+            passthru($command, $result_code);
+        } catch (\Throwable $e) {
+            ob_get_clean();
+            passthru($command, $result_code);
+        }
         $result = ob_get_clean();
 
         //$theOutput = preg_split("/[\n\r]+/", trim($result));

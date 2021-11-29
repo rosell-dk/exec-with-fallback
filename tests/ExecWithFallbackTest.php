@@ -11,7 +11,7 @@ class ExecWithFallbackTest extends BaseTest
     {
         return
             function_exists('exec') ||
-            function_exists('open_proc') ||
+            function_exists('proc_open') ||
             function_exists('passthru');
     }
 

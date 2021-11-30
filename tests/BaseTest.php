@@ -109,7 +109,7 @@ class BaseTest extends TestCase
                 $output,
                 $this->logicalOr(
                     $this->equalTo([' hi', ' world']),     // Linux
-                    $this->identicalTo(['" hi ", " world "'])   // Windows
+                    $this->identicalTo(['" hi "', '" world "'])   // Windows
                 )
             );
         }
@@ -120,6 +120,14 @@ class BaseTest extends TestCase
         if ($this->checkAvailability()) {
             $result = $this->runExec('echo hi 1>/dev/null', $output);
             $this->assertSame('', $result);
+        }
+    }
+
+    public function testStdErrPipedToStdOut()
+    {
+        if ($this->checkAvailability()) {
+            $result = $this->runExec('echo hi && aoeuaoeuaoeu 2>&1', $output);
+            $this->assertTrue(count($output) > 1);
         }
     }
 

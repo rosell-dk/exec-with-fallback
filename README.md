@@ -18,8 +18,5 @@ $result = ExecWithFallback::exec('echo "hi"', $output, $result_code);
 // $return (string | false) is now false in case of failure or the last line of the output
 ```
 
-## Current state: near stable
-It is now tested across many platforms and PHP versions. Not tested in 5.6 yet, though.
-
-TODO:
-- Test when errors are directed to StdOut (2>&1)
+## Current state: stable
+It is now tested across many platforms and PHP versions. Not tested in PHP 5.6 yet, though.

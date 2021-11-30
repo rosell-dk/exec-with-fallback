@@ -1,8 +1,9 @@
 # Exec with fallback
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/rosell-dk/exec-with-fallback.svg?style=flat-square)](https://packagist.org/packages/rosell-dk/exec-with-fallback)
+[![Latest Stable Version](http://poser.pugx.org/rosell-dk/exec-with-fallback/v)](https://packagist.org/packages/rosell-dk/exec-with-fallback)
 [![Build Status](https://github.com/rosell-dk/exec-with-fallback/actions/workflows/php.yml/badge.svg)](https://github.com/rosell-dk/exec-with-fallback/actions/workflows/php.yml)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/rosell-dk/exec-with-fallback/blob/master/LICENSE)
+[![Software License](http://poser.pugx.org/rosell-dk/exec-with-fallback/license)](https://github.com/rosell-dk/exec-with-fallback/blob/master/LICENSE)
+[![PHP Version Require](http://poser.pugx.org/rosell-dk/exec-with-fallback/require/php)](https://packagist.org/packages/rosell-dk/exec-with-fallback)
 
 ## One exec() to rule them all
 Swap out your current *exec()* calls with *ExecWithFallback::exec()* in order to get a more resilient exec(). In case *exec()* is unavailable, the library emulates it using one of the following functions: *open_proc()*, *passthru()*, *proc_open()*, *popen*, *shell_exec()*

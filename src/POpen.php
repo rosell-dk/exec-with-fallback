@@ -8,7 +8,7 @@ namespace ExecWithFallback;
  * @package    Exec
  * @author     Bjørn Rosell <it@rosell.dk>
  */
-class ShellExec
+class POpen
 {
 
   /**
@@ -29,25 +29,16 @@ class ShellExec
             return false;
         }
 
-        $result = shell_exec($command);
-
-        // result:
-        // - A string containing the output from the executed command,
-        // - false if the pipe cannot be established
-        // - or null if an error occurs or the command produces no output.
-
-        if ($result === false) {
+        $handle = @popen($command, "r");
+        if ($handle === false) {
             return false;
         }
-        if (is_null($result)) {
-            // hm, "null if an error occurs or the command produces no output."
-            // What were they thinking?
-            // And yes, it does return null, when no output, which is confirmed in the test "echo hi 1>/dev/null"
-            // What should we do? Throw or accept?
-            // Perhaps shell_exec throws in newer versions of PHP instead of returning null.
-            // We are counting on it until proved wrong.
-            return '';
+
+        $result = '';
+        while (!@feof($handle)) {
+            $result .= fread($handle, 1024);
         }
+        pclose($f);
 
         $theOutput = preg_split('/\s*\r\n|\s*\n\r|\s*\n|\s*\r/', $result);
 

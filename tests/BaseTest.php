@@ -115,6 +115,14 @@ class BaseTest extends TestCase
         }
     }
 
+    public function testNoOutput()
+    {
+        if ($this->checkAvailability()) {
+            $result = $this->runExec('echo hi 1>/dev/null', $output);
+            $this->assertSame('', $result);
+        }
+    }
+
     public function testOutputIsInt()
     {
         if ($this->checkAvailability()) {
@@ -126,9 +134,9 @@ class BaseTest extends TestCase
             } else {
                 $result = $this->runExec('echo hi', $output);
             }
-            $this->assertEquals('hi', $result);
+            $this->assertSame('hi', $result);
             $this->assertEquals('array', gettype($output));
-            $this->assertEquals($output[0], 'hi');
+            $this->assertSame($output[0], 'hi');
         }
     }
 

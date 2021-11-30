@@ -23,7 +23,7 @@ class ExecWithFallback
      */
     public static function exec($command, &$output = null, &$result_code = null)
     {
-        $stack = ['exec', 'proc_open', 'passthru', 'shell_exec'];
+        $stack = ['exec', 'proc_open', 'passthru', 'popen', 'shell_exec'];
         foreach ($stack as $method) {
             if (function_exists($method)) {
                 if (($method == 'shell_exec') && (func_num_args() == 3)) {
@@ -48,6 +48,8 @@ class ExecWithFallback
                 return exec($command, $output, $result_code);
             case 'passthru':
                 return Passthru::exec($command, $output, $result_code);
+            case 'popen':
+                return POpen::exec($command, $output, $result_code);
             case 'proc_open':
                 return ProcOpen::exec($command, $output, $result_code);
             case 'shell_exec':

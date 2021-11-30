@@ -73,8 +73,8 @@ jobs:
         php -i
         php -m
 
-  php72and73:
-    name: Run on many PHP 7.2 and 7.3
+  php73:
+    name: PHP 7.3
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -94,6 +94,42 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
         extensions: mbstring
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: composer run-script test
+
+    - name: php --version
+      run: |
+        php -i
+        php -m
+
+  php72:
+    name: Run on PHP 7.2
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04]
+        php: [7.1]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring
+
+    - name: Downgrade PHP unit to a version that supports PHP 7.2
+      run: composer require "phpunit/phpunit:^8.0" --dev
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress

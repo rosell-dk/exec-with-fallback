@@ -1,7 +1,8 @@
 # Exec
 
-[![Build Status](https://img.shields.io/github/workflow/status/rosell-dk/exec-with-fallback/PHP?logo=GitHub&style=flat-square)](https://github.com/rosell-dk/exec-with-fallback/actions/workflows/php.yml)
+[![Build Status](https://github.com/rosell-dk/exec-with-fallback/actions/workflows/php.yml/badge.svg)](https://github.com/rosell-dk/exec-with-fallback/actions/workflows/php.yml)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/rosell-dk/exec-with-fallback/blob/master/LICENSE)
+
 
 Execute command with *exec()*, *open_proc()* or whatever available
 

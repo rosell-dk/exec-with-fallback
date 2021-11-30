@@ -21,4 +21,16 @@ $result = ExecWithFallback::exec('echo "hi"', $output, $result_code);
 // $return (string | false) is now false in case of failure or the last line of the output
 ```
 
-PS: As *shell_exec()* does not support $result_code, it will only be used when $result_code isn't supplied.
+## Implementation
+*ExecWithFallback::exec()* first checks if *exec()* is available and calls it, if it is. In case *exec* is unavailable (deactivated on server), or exec() returns false, it moves on to checking if *passthru()* is available and so on. The order is as follows:
+- exec()
+- passthru()
+- popen()
+- proc_open()
+- shell_exec()
+
+In case all functions are unavailable, *exec()* is called. This ensures that the error handling will be exactly as usual. In case none succeeded, but at least one failed by returning false, false is returned. Again to mimic *exec()* behavior.
+
+PS: As *shell_exec()* does not support *$result_code*, it will only be used when $result_code isn't supplied. *system()* is not implemented, as it cannot return the last line of output and there is no way to detect if your code relies on that.
+
+If you for some reason want to run a specific exec() emulation, you can use the corresponding class directly, ie *ProcOpen::exec()*.

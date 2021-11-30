@@ -122,6 +122,9 @@ class ExecWithFallbackTest extends BaseTest
         $this->assertSame(3, $this->supplied('three', $seven, $seven));
         $this->assertSame(1, $this->supplied('', $yetUndefined));
         $this->assertSame(3, $this->supplied('', $yetUndefined, $yetUndefined));
+
+        /*
+        TODO: enable in PHP 8.0
         $this->assertSame(3, $this->supplied(
             command:'hi',
             output: $yetUndefined,
@@ -141,6 +144,7 @@ class ExecWithFallbackTest extends BaseTest
             '',
             result_code: $yetUndefined
         ));
+        */
 
 
         /*

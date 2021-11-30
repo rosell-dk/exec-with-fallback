@@ -43,5 +43,8 @@ if (function_exists('exec')) {
 
 ## Current state: near stable
 It is now tested across many platforms and PHP versions. Not tested in 5.6 yet, though.
-I want to add a few more methods for mimicing exec().
-Also, in case that a method returns false (soft failure), we should go on to the next instead of returning false
+
+TODO:
+- Test when errors are directed to StdOut (2>&1)
+- Test when no output is produced
+- Add popen()

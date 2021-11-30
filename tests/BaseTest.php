@@ -185,11 +185,27 @@ class BaseTest extends TestCase
     public function testUnknownCommand()
     {
         if ($this->checkAvailability()) {
-            $result = $this->runExec('aoebuaoeu', $output, $result_code);
             if ($this->supportsResultCode) {
+                $result = $this->runExec('aoebuaoeu', $output, $result_code);
                 $this->assertNotEquals(0, $result_code);  // 127 on linux, 1 on windows
+            } else {
+                $result = $this->runExec('aoebuaoeu', $output);
             }
             $this->assertEquals('', $result);
+        }
+    }
+
+    public function testUnknownCommand2()
+    {
+        if ($this->checkAvailability()) {
+            if ($this->supportsResultCode) {
+                $result = $this->runExec('aoebuaoeu 2>&1', $output, $result_code);
+                $this->assertNotEquals(0, $result_code);  // 127 on linux, 1 on windows
+            } else {
+                $result = $this->runExec('aoebuaoeu 2>&1', $output);
+            }
+            $this->assertSame('string', gettype($result));
+            $this->assertTrue(strlen($result) > 0);
         }
     }
 

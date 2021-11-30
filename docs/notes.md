@@ -81,7 +81,8 @@ function yemenEx($in)
 }
 ```
 (got it from here: https://hotexamples.com/examples/-/-/passthru/php-passthru-function-examples.html)
-
+Also check this little overview out: https://stackoverflow.com/questions/732832/php-exec-vs-system-vs-passthru
+https://stackoverflow.com/questions/732832/php-exec-vs-system-vs-passthru
 
 
 

@@ -1,7 +1,7 @@
 # Exec
 
-[![Build Status](https://img.shields.io/github/workflow/status/rosell-dk/exec/PHP?logo=GitHub&style=flat-square)](https://github.com/rosell-dk/exec/actions/workflows/php.yml)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/rosell-dk/exec/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/github/workflow/status/rosell-dk/exec-with-fallback/PHP?logo=GitHub&style=flat-square)](https://github.com/rosell-dk/exec-with-fallback/actions/workflows/php.yml)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/rosell-dk/exec-with-fallback/blob/master/LICENSE)
 
 Execute command with *exec()*, *open_proc()* or whatever available
 
@@ -40,8 +40,7 @@ if (function_exists('exec')) {
 ```
 
 
-## Current state: drafty
-The state of this project is currently a quick draft. It needs to be tested across platforms. And it is the plan to mimic exec() using more methods.
-
-Also, I might deal with StdErr in another way..
-And the timeout set in open_proc should probably be customizable
+## Current state: near stable
+It is now tested across many platforms and PHP versions. Not tested in 5.6 yet, though.
+I want to add a few more methods for mimicing exec().
+Also, in case that a method returns false (soft failure), we should go on to the next instead of returning false

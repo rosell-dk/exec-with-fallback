@@ -3,7 +3,7 @@ namespace ExecWithFallback\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-class PHPAssumptions extends TestCase
+class LineSplittingTest extends TestCase
 {
 
     public function splitLines($text)

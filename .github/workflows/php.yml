@@ -7,13 +7,13 @@ on:
     branches: [ main ]
 
 jobs:
-  run:
-    name: Run
+  php80:
+    name: PHP 8.0
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, windows-2019]
+        os: [ubuntu-20.04, ubuntu-18.04, windows-2022, windows-2019, windows-2016, macos-11, macos-10.15]
         php: [8.0]
 
     steps:
@@ -39,6 +39,145 @@ jobs:
       run: |
         php -i
         php -m
+
+  php74:
+    name: PHP 7.4
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, ubuntu-18.04, windows-2019, windows-2016]
+        php: [7.4]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: composer run-script test
+
+    - name: php --version
+      run: |
+        php -i
+        php -m
+
+  php72and73:
+    name: Run on many PHP 7.2 and 7.3
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04]
+        php: [7.2, 7.3]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: composer run-script test
+
+    - name: php --version
+      run: |
+        php -i
+        php -m
+
+  php71:
+    name: Run on PHP 7.1
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04]
+        php: [7.1]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring
+
+    - name: Downgrade PHP unit to a version that supports PHP 7.1
+      run: composer require "phpunit/phpunit:^7.0" --dev
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: composer run-script test
+
+    - name: php --version
+      run: |
+        php -i
+        php -m
+
+  php70:
+    name: Run on PHP 7.0
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-18.04]
+        php: [7.0]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring
+
+    - name: Downgrade PHP unit to a version that supports PHP 7.1
+      run: composer require "phpunit/phpunit:^6.0" --dev
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: composer run-script test
+
+    - name: php --version
+      run: |
+        php -i
+        php -m
+
 
   run2:
     name: Run (with disabled functions)

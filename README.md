@@ -19,6 +19,3 @@ $result = ExecWithFallback::exec('echo "hi"', $output, $result_code);
 // $result_code (int) now holds the result code
 // $return (string | false) is now false in case of failure or the last line of the output
 ```
-
-## Current state: stable
-It is now tested across many platforms and PHP versions. Not tested in PHP 5.6 yet, though.

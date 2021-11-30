@@ -3,7 +3,7 @@
 namespace ExecWithFallback;
 
 /**
- * ProcOpenExecutor
+ * Emulate exec() with proc_open()
  *
  * @package    Exec
  * @author     Bjørn Rosell <it@rosell.dk>
@@ -12,7 +12,7 @@ class ProcOpen
 {
 
   /**
-   * Emulate exec() with proc_open
+   * Emulate exec() with proc_open()
    *
    * @param string $command  The command to execute
    * @param string &$output (optional)
@@ -47,16 +47,14 @@ class ProcOpen
             }
             if (gettype($output) == 'array') {
                 foreach ($theOutput as $line) {
-                   $output[] = $line;
+                    $output[] = $line;
                 }
             } else {
                 $output = $theOutput;
             }
             return $theOutput[count($theOutput) -1];
-
         } else {
             return false;
         }
     }
-
 }

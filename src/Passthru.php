@@ -3,7 +3,7 @@
 namespace ExecWithFallback;
 
 /**
- * ProcOpenExecutor
+ * Emulate exec() with passthru()
  *
  * @package    Exec
  * @author     Bjørn Rosell <it@rosell.dk>
@@ -12,7 +12,7 @@ class Passthru
 {
 
   /**
-   * Emulate exec() with passthru
+   * Emulate exec() with passthru()
    *
    * @param string $command  The command to execute
    * @param string &$output (optional)
@@ -42,12 +42,11 @@ class Passthru
         }
         if (gettype($output) == 'array') {
             foreach ($theOutput as $line) {
-               $output[] = $line;
+                $output[] = $line;
             }
         } else {
             $output = $theOutput;
         }
         return $theOutput[count($theOutput) -1];
     }
-
 }

@@ -4,7 +4,7 @@ namespace ExecWithFallback;
 /**
  * Execute command with exec(), open_proc() or whatever available
  *
- * @package    Exec
+ * @package    ExecWithFallback
  * @author     Bjørn Rosell <it@rosell.dk>
  */
 class ExecWithFallback

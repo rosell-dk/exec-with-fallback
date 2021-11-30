@@ -5,7 +5,7 @@ namespace ExecWithFallback;
 /**
  * Emulate exec() with passthru()
  *
- * @package    Exec
+ * @package    ExecWithFallback
  * @author     Bjørn Rosell <it@rosell.dk>
  */
 class Passthru

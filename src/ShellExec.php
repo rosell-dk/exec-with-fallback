@@ -5,7 +5,7 @@ namespace ExecWithFallback;
 /**
  * Emulate exec() with system()
  *
- * @package    Exec
+ * @package    ExecWithFallback
  * @author     Bjørn Rosell <it@rosell.dk>
  */
 class ShellExec

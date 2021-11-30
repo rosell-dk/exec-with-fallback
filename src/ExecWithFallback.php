@@ -26,20 +26,18 @@ class ExecWithFallback
         $stack = ['exec', 'proc_open', 'passthru', 'shell_exec'];
         foreach ($stack as $method) {
             if (function_exists($method)) {
-                if (func_num_args() == 3) {
-                    $result = self::runExec($method, $command, $output, $result_code);
-                } else {
-                    $result = self::runExec($method, $command, $output);
+                if (($method == 'shell_exec') && (func_num_args() == 3)) {
+                    continue;
                 }
+                $result = self::runExec($method, $command, $output, $result_code);
                 if ($result !== false) {
                     return $result;
                 }
             }
         }
-        if ($result === false) {
+        if (isset($result) && ($result === false)) {
             return false;
         }
-
         return exec($command, $output, $result_code);
     }
 

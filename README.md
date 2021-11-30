@@ -35,4 +35,14 @@ PS: As *shell_exec()* does not support *$result_code*, it will only be used when
 
 If you for some reason want to run a specific exec() emulation, you can use the corresponding class directly, ie *ProcOpen::exec()*.
 
-The library is very lightweight. In case *exec()* is allowed, it is called immediately and only the main file is autoloaded. In case all are unavailable, it only costs a little loop, amounting to five (function_exists()* calls, and again, only the main file is autoloaded. In case *exec()* is unavailable, but one of the others are available, only that implementation is autoloaded.
+## Is it worth it?
+Well, often these functions are often all enabled or all disabled. So on the majority of systems, it will not make a difference. But on the other hand: This library is easily installed, very lightweight and very well tested.
+
+**easily installed**
+Install with composer and substitute you *exec()* calls.
+
+**lightweight**
+The library is extremely lightweight. In case *exec()* is available, it is called immediately and only the main file is autoloaded. In case all are unavailable, it only costs a little loop, amounting to five *function_exists()* calls, and again, only the main file is autoloaded. In case *exec()* is unavailable, but one of the others are available, only that implementation is autoloaded, besides the main file.
+
+**well tested**
+I made sure that the function behaves exactly like *exec()*, and wrote a lot of test cases. It is tested on ubuntu, windows, mac (all in several versions) and in PHP 7.0, 7.1, 7.2, 7.3, 7.4 and 8.0.

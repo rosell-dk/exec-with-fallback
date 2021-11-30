@@ -34,3 +34,5 @@ In case all functions are unavailable, *exec()* is called. This ensures that the
 PS: As *shell_exec()* does not support *$result_code*, it will only be used when $result_code isn't supplied. *system()* is not implemented, as it cannot return the last line of output and there is no way to detect if your code relies on that.
 
 If you for some reason want to run a specific exec() emulation, you can use the corresponding class directly, ie *ProcOpen::exec()*.
+
+The library is very lightweight. In case *exec()* is allowed, it is called immediately and only the main file is autoloaded. In case all are unavailable, it only costs a little loop, amounting to five (function_exists()* calls, and again, only the main file is autoloaded. In case *exec()* is unavailable, but one of the others are available, only that implementation is autoloaded.

@@ -22,12 +22,6 @@ class POpen
    */
     public static function exec($command, &$output = null, &$result_code = null)
     {
-      //echo "\NSHELL:" . $command . ':' . func_num_args() . "\n";
-
-        $resultCodeSupplied = (func_num_args() >= 3);
-        if ($resultCodeSupplied) {
-            return false;
-        }
 
         $handle = @popen($command, "r");
         if ($handle === false) {
@@ -38,7 +32,11 @@ class POpen
         while (!@feof($handle)) {
             $result .= fread($handle, 1024);
         }
-        pclose($f);
+
+        //Note: Unix Only:
+        // pclose() is internally implemented using the waitpid(3) system call.
+        // To obtain the real exit status code the pcntl_wexitstatus() function should be used.
+        $result_code = pclose($handle);
 
         $theOutput = preg_split('/\s*\r\n|\s*\n\r|\s*\n|\s*\r/', $result);
 

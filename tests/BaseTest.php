@@ -24,18 +24,18 @@ class BaseTest extends TestCase
         return function_exists('exec');
     }
 
-    public function runExec($command, &$output = null, &$return_code = null)
+    public function runExec($command, &$output = null, &$result_code = null)
     {
       //echo "\n" . 'Running:' . $this->className;
         if ($this->className == 'ExecWithFallback') {
-            return ExecWithFallback::exec($command, $output,$return_code);
+            return ExecWithFallback::exec($command, $output, $result_code);
         } elseif ($this->className == 'ProcOpen') {
-            return ProcOpen::exec($command, $output,$return_code);
+            return ProcOpen::exec($command, $output, $result_code);
         } elseif ($this->className == 'Passthru') {
-            return Passthru::exec($command, $output,$return_code);
+            return Passthru::exec($command, $output, $result_code);
         } else {
             //echo "\n" . 'RUNNING BASE EXEC';
-            return exec($command, $output, $return_code);
+            return exec($command, $output, $result_code);
         }
 
         /*
@@ -43,7 +43,7 @@ class BaseTest extends TestCase
             ['\\ExecWithFallback\\' . 'exec'],
             $command,
             $output,
-            $return_code
+            $result_code
         );
         */
     }
@@ -53,8 +53,8 @@ class BaseTest extends TestCase
     public function testDevNull()
     {
         $output = [];
-        $execResult = $this->runExec('ls 1>/dev/null', $output, $return_code);
-        $this->assertEquals(0, $return_code);
+        $execResult = $this->runExec('ls 1>/dev/null', $output, $result_code);
+        $this->assertEquals(0, $result_code);
         $this->assertEquals(0, count($output));
         $this->assertEquals('', $execResult);
     }
@@ -78,11 +78,28 @@ class BaseTest extends TestCase
         }
     }
 
+    /*
+    TODO: enable this test in PHP 8
+    public function testNoOutputSuppliedButReturnCodeIs()
+    {
+        if ($this->checkAvailability()) {
+            //$result = $this->runExec('echo hi', null, $result_code);
+            //$result = exec('echo hi', null, $result_code);
+            // https://stackoverflow.com/questions/1066625/how-would-i-skip-optional-arguments-in-a-function-call
+            //$result = exec(command:'echo hi', result_code:$result_code);
+            $result = $this->runExec(command:'echo hi', result_code:$result_code);
+
+            $this->assertEquals('hi', $result);
+            $this->assertSame(0, $result_code);
+        }
+    }
+    */
+
     public function testTwoLines()
     {
         if ($this->checkAvailability()) {
-            $result = $this->runExec('echo hi && echo world', $output, $return_code);
-            $this->assertEquals(0, $return_code);
+            $result = $this->runExec('echo hi && echo world', $output, $result_code);
+            $this->assertEquals(0, $result_code);
             $this->assertEquals('world', $result);
             $this->assertEquals(count($output), 2, print_r($output, true));
             $this->assertEquals('hi', trim($output[0]));  // "hi " on windows, using exec()
@@ -93,7 +110,7 @@ class BaseTest extends TestCase
     public function testWhiteSpace()
     {
         if ($this->checkAvailability()) {
-            $result = $this->runExec('echo " hi "', $output, $return_code);
+            $result = $this->runExec('echo " hi "', $output, $result_code);
             $this->assertThat(
                 $result,
                 $this->logicalOr(
@@ -108,8 +125,8 @@ class BaseTest extends TestCase
     {
         if ($this->checkAvailability()) {
             $output = 10;
-            $result = $this->runExec('echo hi', $output, $return_code);
-            $this->assertEquals(0, $return_code);
+            $result = $this->runExec('echo hi', $output, $result_code);
+            $this->assertEquals(0, $result_code);
             $this->assertEquals('hi', $result);
             $this->assertEquals('array', gettype($output));
             $this->assertEquals($output[0], 'hi');
@@ -120,8 +137,8 @@ class BaseTest extends TestCase
     {
         if ($this->checkAvailability()) {
             $output = 'abc';
-            $result = $this->runExec('echo hi', $output, $return_code);
-            $this->assertEquals(0, $return_code);
+            $result = $this->runExec('echo hi', $output, $result_code);
+            $this->assertEquals(0, $result_code);
             $this->assertEquals('hi', $result);
             $this->assertEquals('array', gettype($output));
             $this->assertEquals('hi', $output[0]);
@@ -132,8 +149,8 @@ class BaseTest extends TestCase
     {
         if ($this->checkAvailability()) {
             $output = ['abc'];
-            $result = $this->runExec('echo hi', $output, $return_code);
-            $this->assertEquals(0, $return_code);
+            $result = $this->runExec('echo hi', $output, $result_code);
+            $this->assertEquals(0, $result_code);
             $this->assertEquals('hi', $result);
             $this->assertEquals('array', gettype($output));
             $this->assertEquals('abc', $output[0]);
@@ -144,8 +161,8 @@ class BaseTest extends TestCase
     public function testUnknownCommand()
     {
         if ($this->checkAvailability()) {
-            $result = $this->runExec('aoebuaoeu', $output, $return_code);
-            $this->assertNotEquals(0, $return_code);  // 127 on linux, 1 on windows
+            $result = $this->runExec('aoebuaoeu', $output, $result_code);
+            $this->assertNotEquals(0, $result_code);  // 127 on linux, 1 on windows
             $this->assertEquals('', $result);
         }
     }
@@ -168,9 +185,9 @@ class BaseTest extends TestCase
             $this->assertEquals(0, 0);
         } else {
             $hasThrown = false;
-            //$result = $this->runExec('echo "hi"', $output, $return_code);
+            //$result = $this->runExec('echo "hi"', $output, $result_code);
             try {
-                $result = $this->runExec('echo hi', $output, $return_code);
+                $result = $this->runExec('echo hi', $output, $result_code);
             } catch (\Exception $e) {
                 $hasThrown = true;
             } catch (\Throwable $e) {
@@ -185,8 +202,8 @@ class BaseTest extends TestCase
     // test wait script (only locally available...)
     public function testWaitScript()
     {
-        $result = $this->runExec('wait.sh 0.1 0', $output, $return_code);
-        $this->assertEquals(0, $return_code, 'wait.sh command did not return with exit code 0');
+        $result = $this->runExec('wait.sh 0.1 0', $output, $result_code);
+        $this->assertEquals(0, $result_code, 'wait.sh command did not return with exit code 0');
         $this->assertEquals('Sleep for 0.1 seconds', $output[0]);
         $this->assertEquals('OK', $output[1]);
     }
@@ -194,15 +211,15 @@ class BaseTest extends TestCase
     // test wait script (only locally available...)
     public function testWaitScriptReturnCode2()
     {
-        $result = $this->runExec('wait.sh 0.1 2', $output, $return_code);
-        $this->assertEquals(2, $return_code, 'wait.sh command did not return with exit code 2');
+        $result = $this->runExec('wait.sh 0.1 2', $output, $result_code);
+        $this->assertEquals(2, $result_code, 'wait.sh command did not return with exit code 2');
         $this->assertEquals('NOT OK', $output[1]);
     }
 
     public function testWaitScriptLongWait()
     {
-        $result = $this->runExec('wait.sh 5 0', $output, $return_code);
-        $this->assertEquals(0, $return_code, 'wait.sh command did not return with exit code 0');
+        $result = $this->runExec('wait.sh 5 0', $output, $result_code);
+        $this->assertEquals(0, $result_code, 'wait.sh command did not return with exit code 0');
         $this->assertEquals('OK', $output[1]);
     }
 */

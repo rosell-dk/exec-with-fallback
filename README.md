@@ -1,9 +1,9 @@
-# Exec
+# Exec with fallback
 
 [![Build Status](https://github.com/rosell-dk/exec-with-fallback/actions/workflows/php.yml/badge.svg)](https://github.com/rosell-dk/exec-with-fallback/actions/workflows/php.yml)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/rosell-dk/exec-with-fallback/blob/master/LICENSE)
 
-Simply swap out your current *exec()* calls with *ExecWithFallback::exec()* in order to get a more resilient exec(). In case *exec()* is unavailable, the library emulates it using one of the following functions: *open_proc()*, *passthru()*, *proc_open()*, *popen*, *shell_exec()*
+Swap out your current *exec()* calls with *ExecWithFallback::exec()* in order to get a more resilient exec(). In case *exec()* is unavailable, the library emulates it using one of the following functions: *open_proc()*, *passthru()*, *proc_open()*, *popen*, *shell_exec()*
 
 The signatures are exactly the same as standard exec() and they handle errors the same way.
 

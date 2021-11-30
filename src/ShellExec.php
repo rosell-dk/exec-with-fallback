@@ -3,16 +3,16 @@
 namespace ExecWithFallback;
 
 /**
- * Emulate exec() with passthru()
+ * Emulate exec() with system()
  *
  * @package    Exec
  * @author     Bjørn Rosell <it@rosell.dk>
  */
-class Passthru
+class ShellExec
 {
 
   /**
-   * Emulate exec() with passthru()
+   * Emulate exec() with system()
    *
    * @param string $command  The command to execute
    * @param string &$output (optional)
@@ -22,20 +22,15 @@ class Passthru
    */
     public static function exec($command, &$output = null, &$result_code = null)
     {
-        ob_start();
-        // Note: We use try/catch in order to close output buffering in case it throws
-        try {
-            passthru($command, $result_code);
-        } catch (\Exception $e) {
-            ob_get_clean();
-            passthru($command, $result_code);
-        } catch (\Throwable $e) {
-            ob_get_clean();
-            passthru($command, $result_code);
-        }
-        $result = ob_get_clean();
+      //echo "\NSHELL:" . $command . ':' . func_num_args() . "\n";
 
-        // split new lines. Also remove trailing space, as exec() does
+        $resultCodeSupplied = (func_num_args() >= 3);
+        if ($resultCodeSupplied) {
+            return false;
+        }
+
+        $result = shell_exec($command);
+
         $theOutput = preg_split('/\s*\r\n|\s*\n\r|\s*\n|\s*\r/', $result);
 
         // remove the last element if it is blank

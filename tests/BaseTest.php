@@ -3,14 +3,10 @@ namespace ExecWithFallback\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use ExecWithFallback\ExecWithFallback;
-use ExecWithFallback\ProcOpen;
-use ExecWithFallback\Passthru;
-
-
 class BaseTest extends TestCase
 {
     public $className = '';
+    public $supportsResultCode = true;
 
     public function checkAvailability()
     {
@@ -26,27 +22,9 @@ class BaseTest extends TestCase
 
     public function runExec($command, &$output = null, &$result_code = null)
     {
-      //echo "\n" . 'Running:' . $this->className;
-        if ($this->className == 'ExecWithFallback') {
-            return ExecWithFallback::exec($command, $output, $result_code);
-        } elseif ($this->className == 'ProcOpen') {
-            return ProcOpen::exec($command, $output, $result_code);
-        } elseif ($this->className == 'Passthru') {
-            return Passthru::exec($command, $output, $result_code);
-        } else {
-            //echo "\n" . 'RUNNING BASE EXEC';
-            return exec($command, $output, $result_code);
-        }
-
-        /*
-        return call_user_func(
-            ['\\ExecWithFallback\\' . 'exec'],
-            $command,
-            $output,
-            $result_code
-        );
-        */
+        return exec($command, $output, $result_code);
     }
+
 
     /*
     Doesn't work with ProcOpen
@@ -66,6 +44,7 @@ class BaseTest extends TestCase
         if ($this->checkAvailability()) {
             $output = [];
             $execResult = $this->runExec('echo hi', $output);
+
             $this->assertEquals('hi', $execResult);
         }
     }
@@ -98,8 +77,12 @@ class BaseTest extends TestCase
     public function testTwoLines()
     {
         if ($this->checkAvailability()) {
-            $result = $this->runExec('echo hi && echo world', $output, $result_code);
-            $this->assertEquals(0, $result_code);
+            if ($this->supportsResultCode) {
+                $result = $this->runExec('echo hi && echo world', $output, $result_code);
+                $this->assertEquals(0, $result_code);
+            } else {
+                $result = $this->runExec('echo hi && echo world', $output);
+            }
             $this->assertEquals('world', $result);
             $this->assertEquals(count($output), 2, print_r($output, true));
             $this->assertEquals('hi', trim($output[0]));  // "hi " on windows, using exec()
@@ -110,12 +93,23 @@ class BaseTest extends TestCase
     public function testWhiteSpace()
     {
         if ($this->checkAvailability()) {
-            $result = $this->runExec('echo " hi "', $output, $result_code);
+            if ($this->supportsResultCode) {
+                $result = $this->runExec('echo " hi " && echo " world "', $output, $result_code);
+            } else {
+                $result = $this->runExec('echo " hi " && echo " world "', $output);
+            }
             $this->assertThat(
                 $result,
                 $this->logicalOr(
-                    $this->identicalTo(' hi'),     // Linux
-                    $this->identicalTo('" hi "')   // Windows
+                    $this->identicalTo(' world'),     // Linux
+                    $this->identicalTo('" world "')   // Windows
+                )
+            );
+            $this->assertThat(
+                $output,
+                $this->logicalOr(
+                    $this->equalTo([' hi', ' world']),     // Linux
+                    $this->identicalTo(['" hi ", " world "'])   // Windows
                 )
             );
         }
@@ -125,8 +119,13 @@ class BaseTest extends TestCase
     {
         if ($this->checkAvailability()) {
             $output = 10;
-            $result = $this->runExec('echo hi', $output, $result_code);
-            $this->assertEquals(0, $result_code);
+
+            if ($this->supportsResultCode) {
+                $result = $this->runExec('echo hi', $output, $result_code);
+                $this->assertEquals(0, $result_code);
+            } else {
+                $result = $this->runExec('echo hi', $output);
+            }
             $this->assertEquals('hi', $result);
             $this->assertEquals('array', gettype($output));
             $this->assertEquals($output[0], 'hi');
@@ -137,8 +136,12 @@ class BaseTest extends TestCase
     {
         if ($this->checkAvailability()) {
             $output = 'abc';
-            $result = $this->runExec('echo hi', $output, $result_code);
-            $this->assertEquals(0, $result_code);
+            if ($this->supportsResultCode) {
+                $result = $this->runExec('echo hi', $output, $result_code);
+                $this->assertEquals(0, $result_code);
+            } else {
+                $result = $this->runExec('echo hi', $output);
+            }
             $this->assertEquals('hi', $result);
             $this->assertEquals('array', gettype($output));
             $this->assertEquals('hi', $output[0]);
@@ -149,8 +152,13 @@ class BaseTest extends TestCase
     {
         if ($this->checkAvailability()) {
             $output = ['abc'];
-            $result = $this->runExec('echo hi', $output, $result_code);
-            $this->assertEquals(0, $result_code);
+
+            if ($this->supportsResultCode) {
+                $result = $this->runExec('echo hi', $output, $result_code);
+                $this->assertEquals(0, $result_code);
+            } else {
+                $result = $this->runExec('echo hi', $output);
+            }
             $this->assertEquals('hi', $result);
             $this->assertEquals('array', gettype($output));
             $this->assertEquals('abc', $output[0]);
@@ -162,7 +170,9 @@ class BaseTest extends TestCase
     {
         if ($this->checkAvailability()) {
             $result = $this->runExec('aoebuaoeu', $output, $result_code);
-            $this->assertNotEquals(0, $result_code);  // 127 on linux, 1 on windows
+            if ($this->supportsResultCode) {
+                $this->assertNotEquals(0, $result_code);  // 127 on linux, 1 on windows
+            }
             $this->assertEquals('', $result);
         }
     }

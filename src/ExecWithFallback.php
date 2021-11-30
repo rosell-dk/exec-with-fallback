@@ -23,11 +23,42 @@ class ExecWithFallback
      */
     public static function exec($command, &$output = null, &$result_code = null)
     {
-        if (function_exists('exec')) {
-            return exec($command, $output, $result_code);
-        } elseif (function_exists('proc_open')) {
-            return ProcOpen::exec($command, $output, $result_code);
+        $stack = ['exec', 'proc_open', 'passthru', 'shell_exec'];
+        foreach ($stack as $method) {
+            if (function_exists($method)) {
+                if (func_num_args() == 3) {
+                    $result = self::runExec($method, $command, $output, $result_code);
+                } else {
+                    $result = self::runExec($method, $command, $output);
+                }
+                if ($result !== false) {
+                    return $result;
+                }
+            }
         }
+        if ($result === false) {
+            return false;
+        }
+
         return exec($command, $output, $result_code);
+    }
+
+    public static function runExec($method, $command, &$output = null, &$result_code = null)
+    {
+        switch ($method) {
+            case 'exec':
+                return exec($command, $output, $result_code);
+            case 'passthru':
+                return Passthru::exec($command, $output, $result_code);
+            case 'proc_open':
+                return ProcOpen::exec($command, $output, $result_code);
+            case 'shell_exec':
+                if (func_num_args() == 4) {
+                    return ShellExec::exec($command, $output, $result_code);
+                } else {
+                    return ShellExec::exec($command, $output);
+                }
+        }
+        return false;
     }
 }

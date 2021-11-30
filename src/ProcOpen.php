@@ -40,8 +40,15 @@ class ProcOpen
             fclose($pipes[1]);
             //fclose($pipes[2]);
             $result_code = proc_close($processHandle);
-            $theOutput = preg_split("/[\n\r]+/", rtrim(trim($result, "\n\r")));
-            //$theOutput = explode(PHP_EOL, trim($result, PHP_EOL));
+
+            // split new lines. Also remove trailing space, as exec() does
+            $theOutput = preg_split('/\s*\r\n|\s*\n\r|\s*\n|\s*\r/', $result);
+
+            // remove the last element if it is blank
+            if ((count($theOutput) > 0) && ($theOutput[count($theOutput) -1] == '')) {
+                array_pop($theOutput);
+            }
+
             if (count($theOutput) == 0) {
                 return '';
             }

@@ -21,6 +21,9 @@ $result = ExecWithFallback::exec('echo "hi"', $output, $result_code);
 // $return (string | false) is now false in case of failure or the last line of the output
 ```
 
+## Installing
+`composer require rosell-dk/exec-with-fallback`
+
 ## Implementation
 *ExecWithFallback::exec()* first checks if *exec()* is available and calls it, if it is. In case *exec* is unavailable (deactivated on server), or exec() returns false, it moves on to checking if *passthru()* is available and so on. The order is as follows:
 - exec()
@@ -39,10 +42,13 @@ If you for some reason want to run a specific exec() emulation, you can use the 
 Well, often these functions are often all enabled or all disabled. So on the majority of systems, it will not make a difference. But on the other hand: This library is easily installed, very lightweight and very well tested.
 
 **easily installed**
-Install with composer and substitute you *exec()* calls.
+Install with composer (`composer require rosell-dk/exec-with-fallback`) and substitute your *exec()* calls.
 
 **lightweight**
 The library is extremely lightweight. In case *exec()* is available, it is called immediately and only the main file is autoloaded. In case all are unavailable, it only costs a little loop, amounting to five *function_exists()* calls, and again, only the main file is autoloaded. In case *exec()* is unavailable, but one of the others are available, only that implementation is autoloaded, besides the main file.
 
 **well tested**
-I made sure that the function behaves exactly like *exec()*, and wrote a lot of test cases. It is tested on ubuntu, windows, mac (all in several versions) and in PHP 7.0, 7.1, 7.2, 7.3, 7.4 and 8.0.
+I made sure that the function behaves exactly like *exec()*, and wrote a lot of test cases. It is tested on ubuntu, windows, mac (all in several versions). It is tested in PHP 7.0, 7.1, 7.2, 7.3, 7.4 and 8.0. And it is tested in different combinations of disabled functions.
+
+**going to be maintained**
+I'm going to use this library in [webp-convert](https://github.com/rosell-dk/webp-convert), which is used in many projects. So it is going to be widely used. While I don't expect much need for maintenance for this project, it is going to be there, if needed.

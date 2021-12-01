@@ -54,3 +54,9 @@ I made sure that the function behaves exactly like *exec()*, and wrote a lot of 
 
 **going to be maintained**\
 I'm going to use this library in [webp-convert](https://github.com/rosell-dk/webp-convert), which is used in many projects. So it is going to be widely used. While I don't expect much need for maintenance for this project, it is going to be there, if needed.
+
+## Do you like what I do?
+Perhaps you want to support my work, so I can continue doing it :)
+
+- [Become a backer or sponsor on Patreon](https://www.patreon.com/rosell).
+- [Buy me a Coffee](https://ko-fi.com/rosell)

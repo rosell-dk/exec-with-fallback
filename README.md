@@ -21,6 +21,8 @@ $result = ExecWithFallback::exec('echo "hi"', $output, $result_code);
 // $return (string | false) is now false in case of failure or the last line of the output
 ```
 
+If you have `function_exists('exec')` in your code, you can change it to `ExecWithFallback::anyAvailable()`
+
 ## Installing
 `composer require rosell-dk/exec-with-fallback`
 

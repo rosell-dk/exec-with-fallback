@@ -10,8 +10,18 @@ namespace ExecWithFallback;
 class ExecWithFallback
 {
 
-    // PS: Use Availability class to learn if any method is available
     protected static $methods = ['exec', 'passthru', 'popen', 'proc_open', 'shell_exec'];
+
+    /**
+     * Check if any of the methods are available on the system.
+     *
+     * @param boolean $needResultCode  Whether the code using this library is going to supply $result_code to the exec
+     *         call. This matters because shell_exec is only available when not.
+     */
+    public static function anyAvailable($needResultCode = true)
+    {
+        return Availability::anyAvailable($needResultCode);
+    }
 
     /**
      * Execute. - A substitute for exec()

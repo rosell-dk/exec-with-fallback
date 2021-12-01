@@ -35,7 +35,25 @@ class ExecWithFallbackTest extends BaseTest
             $result = ExecWithFallback::runExec('shell_exec', 'echo hi', $output, $result_code);
             $this->assertFalse($result);
         }
+    }
 
+    public function testAnyMethodAvailable()
+    {
+        $methods = ['exec', 'passthru', 'popen', 'proc_open', 'shell_exec'];
+        $anyAvailable = false;
+        $anyOtherThanShellExecAvailable = false;
+        foreach ($methods as $method) {
+            if (function_exists($method)) {
+                $anyAvailable = true;
+                if ($method != 'shell_exec') {
+                    $anyOtherThanShellExecAvailable = true;
+                }
+            }
+        }
+
+        $this->assertSame($anyAvailable, ExecWithFallback::anyAvailable(false));
+        $this->assertSame($anyOtherThanShellExecAvailable, ExecWithFallback::anyAvailable(true));
+        $this->assertSame($anyOtherThanShellExecAvailable, ExecWithFallback::anyAvailable());
     }
 
 }

@@ -18,6 +18,7 @@ class AvailabilityTest extends TestCase
                 if ($method == 'shell_exec') {
                     $this->assertTrue(Availability::methodAvailable($method, false));
                     $this->assertFalse(Availability::methodAvailable($method, true));
+                    $this->assertFalse(Availability::methodAvailable($method));
                 } else {
                     $anyOtherThanShellExecAvailable = true;
                     $this->assertTrue(Availability::methodAvailable($method));
@@ -29,5 +30,6 @@ class AvailabilityTest extends TestCase
 
         $this->assertSame($anyAvailable, Availability::anyAvailable(false));
         $this->assertSame($anyOtherThanShellExecAvailable, Availability::anyAvailable(true));
+        $this->assertSame($anyOtherThanShellExecAvailable, Availability::anyAvailable());
     }
 }

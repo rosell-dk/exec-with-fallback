@@ -13,8 +13,8 @@ class Availability extends ExecWithFallback
     /**
      * Check if any of the methods are available on the system.
      *
-     * @param $needResultCode  Whether the code using this library is going to supply $result_code to the exec call.
-     *                         This matters because shell_exec is only available when not
+     * @param boolean $needResultCode  Whether the code using this library is going to supply $result_code to the exec
+     *         call. This matters because shell_exec is only available when not.
      */
     public static function anyAvailable($needResultCode = true)
     {

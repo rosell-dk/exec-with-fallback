@@ -10,6 +10,8 @@ namespace ExecWithFallback;
 class ExecWithFallback
 {
 
+    public static $methods = ['exec', 'passthru', 'popen', 'proc_open', 'shell_exec'];
+
     /**
      * Execute. - A substitute for exec()
      *
@@ -23,8 +25,7 @@ class ExecWithFallback
      */
     public static function exec($command, &$output = null, &$result_code = null)
     {
-        $stack = ['exec', 'passthru', 'popen', 'proc_open', 'shell_exec'];
-        foreach ($stack as $method) {
+        foreach (self::$methods as $method) {
             if (function_exists($method)) {
                 if (($method == 'shell_exec') && (func_num_args() == 3)) {
                     continue;
@@ -40,7 +41,7 @@ class ExecWithFallback
         }
         return exec($command, $output, $result_code);
     }
-
+    
     public static function runExec($method, $command, &$output = null, &$result_code = null)
     {
         switch ($method) {

@@ -2,17 +2,23 @@
 namespace ExecWithFallback;
 
 /**
- * Check if any of the methods are available
+ * Check if any of the methods are available on the system.
  *
  * @package    ExecWithFallback
  * @author     Bjørn Rosell <it@rosell.dk>
  */
-class Availability
+class Availability extends ExecWithFallback
 {
 
+    /**
+     * Check if any of the methods are available on the system.
+     *
+     * @param $needResultCode  Whether the code using this library is going to supply $result_code to the exec call.
+     *                         This matters because shell_exec is only available when not
+     */
     public static function anyAvailable($needResultCode = true)
     {
-        foreach (ExecWithFallback::$methods as $method) {
+        foreach (self::$methods as $method) {
             if (self::methodAvailable($method, $needResultCode)) {
                 return true;
             }

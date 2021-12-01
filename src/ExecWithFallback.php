@@ -10,7 +10,8 @@ namespace ExecWithFallback;
 class ExecWithFallback
 {
 
-    public static $methods = ['exec', 'passthru', 'popen', 'proc_open', 'shell_exec'];
+    // PS: Use Availability class to learn if any method is available
+    protected static $methods = ['exec', 'passthru', 'popen', 'proc_open', 'shell_exec'];
 
     /**
      * Execute. - A substitute for exec()
@@ -41,7 +42,7 @@ class ExecWithFallback
         }
         return exec($command, $output, $result_code);
     }
-    
+
     public static function runExec($method, $command, &$output = null, &$result_code = null)
     {
         switch ($method) {

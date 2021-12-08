@@ -231,6 +231,8 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
         extensions: mbstring
+        # PS: I would have liked to test disabling ini_get, but then composer fails
+        # composer alse needs proc_open, so I cannot test without that either
         ini-values: disable_functions="exec,passthru"
 
     - name: Install dependencies
@@ -254,7 +256,7 @@ jobs:
       with:
         php-version: ${{ matrix.php }}
         extensions: mbstring
-        ini-values: disable_functions="passthru,ini_get"
+        ini-values: disable_functions="passthru"
 
     - name: Run test suite
       run: composer run-script test

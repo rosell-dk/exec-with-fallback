@@ -2,12 +2,6 @@ name: Large testsuite (run manually before releases)
 
 on: workflow_dispatch
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
 jobs:
   php81:
     name: PHP 8.1

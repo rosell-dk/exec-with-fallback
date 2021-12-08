@@ -25,6 +25,7 @@ class ShellExecTest extends BaseTest
         }
     }
 
+/*
     public function testCodeSupplied()
     {
         if ($this->checkAvailability()) {
@@ -32,6 +33,6 @@ class ShellExecTest extends BaseTest
             $execResult = $this->runExec('echo hi', $output, $return_code);
             $this->assertFalse($execResult);
         }
-    }
+    }*/
 
 }

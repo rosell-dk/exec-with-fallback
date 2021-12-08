@@ -59,6 +59,9 @@ I made sure that the function behaves exactly like *exec()*, and wrote a lot of 
 **going to be maintained**\
 I'm going to use this library in [webp-convert](https://github.com/rosell-dk/webp-convert), which is used in many projects. So it is going to be widely used. While I don't expect much need for maintenance for this project, it is going to be there, if needed.
 
+# This is perfect for my malware, right?
+No, its not. This library doesn't try *system()*, as that function does not return output and thus cannot be used to emulate *exec()*. You would probably want to cover all of your bases. Also, you would probably prefer a single function instead of having it spread over multiple files. Finally, the library here use a lot of efford in getting the emululated functions to behave exactly as exec(). You probably don't need all that, but just want to run your damn thing. So please, write your own function. You should do that anyway. Copying stuff just increases the chance that your code gets recognized as malware.
+
 ## Do you like what I do?
 Perhaps you want to support my work, so I can continue doing it :)
 

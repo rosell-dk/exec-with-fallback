@@ -15,7 +15,7 @@ class ExecWithFallbackNoMercy
    *
    * Same signature and results as exec(): https://www.php.net/manual/en/function.exec.php
    *
-   * This is our hardcore version of our exec(). It does not merely throw an Exception, if
+   * This is our hardball version of our exec(). It does not merely throw an Exception, if
    * no methods are available. It calls exec().
    * This ensures exactly same behavior as normal exec() - the same error is thrown.
    * You might want that. But do you really?

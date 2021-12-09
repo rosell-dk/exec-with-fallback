@@ -1,0 +1,69 @@
+name: debug
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    branches: [ main ]
+
+jobs:
+  php80:
+    name: PHP 8.0.13
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04]
+        php: [8.0.13]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: composer run-script test
+
+  disabled:
+    name: With disabled functions
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04]
+        php: [8.0.13]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Setup PHP (disable some functions)
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring
+        # PS: I would have liked to test disabling ini_get, but then composer fails
+        # composer alse needs proc_open, so I cannot test without that either
+        ini-values: disable_functions="exec,passthru,popen,shell_exec"
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: composer run-script test

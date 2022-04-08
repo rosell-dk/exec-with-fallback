@@ -39,10 +39,16 @@ class ExecWithFallback
             if (ini_get('safe_mode')) {
                 return false;
             }
-            $d = ini_get('disable_functions') . ',' . ini_get('suhosin.executor.func.blacklist');
+            $d = ini_get('disable_functions');
             if ($d === false) {
                 $d = '';
             }
+            $d2 = ini_get('suhosin.executor.func.blacklist');
+            if ($d2 === false) {
+                $d2 = '';
+            }
+            $d .= $d2 . ',';
+
             $d = preg_replace('/,\s*/', ',', $d);
             if (strpos(',' . $d . ',', ',' . $functionName . ',') !== false) {
                 return false;
@@ -98,9 +104,20 @@ class ExecWithFallback
     public static function execNoMercy($command, &$output = null, &$result_code = null)
     {
         if (func_num_args() == 3) {
-            return ExecWithFallbackNoMercy::exec($command, $output, $result_code);
+            try {
+                return self::exec($command, $output, $result_code);
+            } catch (\Exception $e) {
+                // MIGHT THROW FATAL!
+                return exec($command, $output, $result_code);
+            }
+
         } else {
-            return ExecWithFallbackNoMercy::exec($command, $output);
+            try {
+                return self::exec($command, $output);
+            } catch (\Exception $e) {
+                // MIGHT THROW FATAL!
+                return exec($command, $output);
+            }
         }
     }
 

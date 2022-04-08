@@ -105,7 +105,7 @@ jobs:
         if grep -oP '(^9\d.)|(^100.)' <<< "$COVERAGE" > /dev/null; then COLOR=brightgreen; elif grep -oP '[87]\d.' <<< "$COVERAGE" > /dev/null; then COLOR=yellow; elif grep -oP '[65]\d.' <<< "$COVERAGE" > /dev/null; then COLOR=orange; else COLOR=red; fi;
 
         # Generate bagde json
-        echo \{\"schemaVersion\":1,\"label\":\"Coverage\",\"message\":\"$COVERAGE\",\"color\":\"$COLOR\"\} | tee build/coverage-badge.json
+        echo \{\"schemaVersion\":1,\"label\":\"coverage\",\"message\":\"$COVERAGE\",\"color\":\"$COLOR\"\} | tee build/coverage-badge.json
 
         # PS: If we needed COVERAGE elsewhere, we could store in ENV like this:
         # echo "COVERAGE=$COVERAGE" >> $GITHUB_ENV

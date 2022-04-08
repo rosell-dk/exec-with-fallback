@@ -9,7 +9,7 @@
       "@test",
       "@phpcs-all",
       "@composer validate --no-check-all --strict",
-      "@phpstan-global"
+      "@phpstan"
     ],
     "test": "phpunit --coverage-text=build/coverage.txt --coverage-clover=build/coverage.clover --whitelist=src tests",
     "test-41": "phpunit --coverage-text --configuration 'phpunit-41.xml.dist'",

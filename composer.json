@@ -11,7 +11,7 @@
       "@composer validate --no-check-all --strict",
       "@phpstan"
     ],
-    "test": "phpunit --coverage-text=build/coverage.txt --coverage-clover=build/coverage.clover --whitelist=src tests",
+    "test": "phpunit --coverage-text=build/coverage.txt --coverage-clover=build/coverage.clover --coverage-html=build/coverage --whitelist=src tests",
     "test-41": "phpunit --coverage-text --configuration 'phpunit-41.xml.dist'",
     "phpunit": "phpunit --coverage-text",
     "test-no-cov": "phpunit --no-coverage",

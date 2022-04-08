@@ -110,7 +110,6 @@ class ExecWithFallback
                 // MIGHT THROW FATAL!
                 return exec($command, $output, $result_code);
             }
-
         } else {
             try {
                 return self::exec($command, $output);

@@ -33,11 +33,14 @@ class ShellExec
         // - A string containing the output from the executed command,
         // - false if the pipe cannot be established
         // - or null if an error occurs or the command produces no output.
+        // PHP stan complains on systems which reports that shell_exec returns string|null (not false)
+        // So, we added the ignore line AND we have set "reportUnmatchedIgnoredErrors: false" in phpstan config
 
         /** @phpstan-ignore-next-line */
         if ($result === false) {
             return false;
         }
+
         if (is_null($result)) {
             // hm, "null if an error occurs or the command produces no output."
             // What were they thinking?

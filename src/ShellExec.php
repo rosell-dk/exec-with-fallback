@@ -34,6 +34,7 @@ class ShellExec
         // - false if the pipe cannot be established
         // - or null if an error occurs or the command produces no output.
 
+        /** @phpstan-ignore-next-line */
         if ($result === false) {
             return false;
         }

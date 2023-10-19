@@ -98,3 +98,35 @@ jobs:
 
     - name: run phpcs (to check coding style)
       run: composer run-script phpcs-all
+
+    - name: Re-setup PHP, now with "exec" and "passthru" disabled
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring
+        # PS: I would have liked to test disabling ini_get, but then composer fails
+        # composer alse needs proc_open, so I cannot test without that either
+        ini-values: disable_functions="exec,passthru"
+
+    - name: Run test suite with "exec" and "passthru" disabled
+      run: composer run-script test
+
+    - name: Re-setup PHP (only "exec" disabled)
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring
+        ini-values: disable_functions="exec"
+
+    - name: Run test suite with "exec" disabled
+      run: composer run-script test
+
+    - name: Re-setup PHP (only "passthru" disabled)
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        extensions: mbstring
+        ini-values: disable_functions="passthru"
+
+    - name: Run test suite with "passthru" disabled
+      run: composer run-script test

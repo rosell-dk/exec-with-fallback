@@ -55,27 +55,15 @@ Install with composer (`composer require rosell-dk/exec-with-fallback`) and subs
 The library is extremely lightweight. In case *exec()* is available, it is called immediately and only the main file is auto loaded. In case all are unavailable, it only costs a little loop, amounting to five *function_exists()* calls, and again, only the main file is auto loaded. In case *exec()* is unavailable, but one of the others are available, only that implementation is autoloaded, besides the main file.
 
 **well tested**\
-I made sure that the function behaves exactly like *exec()*, and wrote a lot of test cases. It is tested on ubuntu, windows, mac (all in several versions). It is tested in PHP 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1 and 8.2. It is tested in different combinations of disabled functions. Actually, in all combinations of above: [![Giant test](https://img.shields.io/github/actions/workflow/status/rosell-dk/htaccess-capability-tester/release.yml?branch=master&logo=GitHub&style=flat-square&label=Giant%20test)](https://github.com/rosell-dk/htaccess-capability-tester/actions/workflows/release.yml). It is alo tested in future PHP versions, to catch problems early: [![PHP 8.3](https://img.shields.io/github/actions/workflow/status/rosell-dk/htaccess-capability-tester/php83.yml?branch=master&logo=GitHub&style=flat-square&label=PHP%208.3)](https://github.com/rosell-dk/htaccess-capability-tester/actions/workflows/php83.yml)
-[![PHP 8.4](https://img.shields.io/github/actions/workflow/status/rosell-dk/htaccess-capability-tester/php84.yml?branch=master&logo=GitHub&style=flat-square&label=PHP%208.4)](https://github.com/rosell-dk/htaccess-capability-tester/actions/workflows/php84.yml). And it is tested in different combinations of disabled functions: [![PHP 8.4](https://img.shields.io/github/actions/workflow/status/rosell-dk/htaccess-capability-tester/disabled-functions.yml?branch=master&logo=GitHub&style=flat-square&label=PHP%208.4)](https://github.com/rosell-dk/htaccess-capability-tester/actions/workflows/disabled-functions.yml)
+I made sure that the function behaves exactly like *exec()*, and wrote a lot of test cases. It is tested on ubuntu, windows, mac (all in several versions). It is tested in PHP 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1 and 8.2. It is tested in different combinations of disabled functions. Actually, in all combinations of above.\
+Status: [![Giant test](https://img.shields.io/github/actions/workflow/status/rosell-dk/htaccess-capability-tester/release.yml?branch=master&logo=GitHub&style=flat-square&label=Giant%20test)](https://github.com/rosell-dk/htaccess-capability-tester/actions/workflows/release.yml). 
 
-# Platforms
-Works on (at least):
-- OS: Ubuntu (22.04, 20.04), Windows (2022, 2019), Mac OS (13, 12, 11, 10.15)
-- PHP: 5.6 - 8.2
-
-Each new release will be tested on all combinations of OSs and PHP versions that are [supported](https://github.com/marketplace/actions/setup-php-action) by GitHub-hosted runners. Except that we do not below PHP 5.6.\
-Status: [![Giant test](https://img.shields.io/github/actions/workflow/status/rosell-dk/htaccess-capability-tester/release.yml?branch=master&logo=GitHub&style=flat-square&label=Giant%20test)](https://github.com/rosell-dk/htaccess-capability-tester/actions/workflows/release.yml)
-
-Testing consists of running the unit tests. The code in this library has pretty good code coverage (~90% coverage).
-
-We also test future versions of PHP monthly, in order to catch problems early.\
-Status:
+In order to catch problems early, it is also tested in future PHP versions. The following tests are run monthly: 
 [![PHP 8.3](https://img.shields.io/github/actions/workflow/status/rosell-dk/htaccess-capability-tester/php83.yml?branch=master&logo=GitHub&style=flat-square&label=PHP%208.3)](https://github.com/rosell-dk/htaccess-capability-tester/actions/workflows/php83.yml)
-[![PHP 8.4](https://img.shields.io/github/actions/workflow/status/rosell-dk/htaccess-capability-tester/php84.yml?branch=master&logo=GitHub&style=flat-square&label=PHP%208.4)](https://github.com/rosell-dk/htaccess-capability-tester/actions/workflows/php84.yml)
-
+[![PHP 8.4](https://img.shields.io/github/actions/workflow/status/rosell-dk/htaccess-capability-tester/php84.yml?branch=master&logo=GitHub&style=flat-square&label=PHP%208.4)](https://github.com/rosell-dk/htaccess-capability-tester/actions/workflows/php84.yml).
 
 **going to be maintained**\
-I'm going to use this library in [webp-convert](https://github.com/rosell-dk/webp-convert), which is used in many projects. So it is going to be widely used. While I don't expect much need for maintenance for this project, it is going to be there, if needed.
+The library is usid in [webp-convert](https://github.com/rosell-dk/webp-convert) and [webp-express](https://wordpress.org/plugins/webp-express/), both of which are used in many projects. So it is widely used and any future problems are bound to be discovered. While I don't expect much need for maintenance for this project, it is going to be there, if needed.
 
 **Con: risk of being recognized as malware**
 There is a slight risk that a lazy malware creator uses this library for his malware. The risk is however very small, as the library isn't suitable for malware. First off, the library doesn't try *system()*, as that function does not return output and thus cannot be used to emulate *exec()*. A malware creator would desire to try all possible ways to get his malware executed. Secondly, malware creators probably don't use composer for their malware and would probably want a single function instead of having it spread over multiple files. Third, the library here use a lot of effort in getting the emulated functions to behave exactly as exec(). This concern is probably non-existant for malware creators, who probably cares more about the effect of running the malware. Lastly, a malware creator would want to write his own function instead of copying code found on the internet. Copying stuff would impose a chance that the code is used by another malware creator which increases the risk of anti malware software recognizing it as malware.

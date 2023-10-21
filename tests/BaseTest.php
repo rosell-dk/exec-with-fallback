@@ -184,12 +184,21 @@ class BaseTest extends TestCase
 
     public function testUnknownCommand()
     {
+        // The test originally tested runExec('aoebuaoeu1').
+        // However, this generates an error in the phpunit test, unless processIsolation is set to false.
+
+        // 1) ExecWithFallback\Tests\ShellExecTest::testUnknownCommand
+        // PHPUnit\Framework\Exception: sh: 1: aoebuaoeu1: not found
+
+        // I have not found a way to suppress this, other than redirecting stderr to /dev/null, like this: "2> /dev/null"
+        // (see ie https://stackoverflow.com/questions/44201896/how-to-ignore-errors-in-shell-exec)
+
         if ($this->checkAvailability()) {
             if ($this->supportsResultCode) {
-                $result = $this->runExec('aoebuaoeu', $output, $result_code);
+                $result = $this->runExec('aoebuaoeu1 2> /dev/null', $output, $result_code);
                 $this->assertNotEquals(0, $result_code);  // 127 on linux, 1 on windows
             } else {
-                $result = $this->runExec('aoebuaoeu', $output);
+                $result = $this->runExec('aoebuaoeu2 2> /dev/null', $output);
             }
             $this->assertEquals('', $result);
         }

@@ -6,7 +6,7 @@
   "keywords": ["exec", "open_proc", "command", "fallback", "sturdy", "resiliant"],
   "scripts": {
     "ci": [
-      "@test",
+      "@test-no-cov",
       "@phpcs-all",
       "@composer validate --no-check-all --strict",
       "@phpstan"

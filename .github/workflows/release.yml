@@ -114,7 +114,7 @@ jobs:
         ini-values: disable_functions="exec,passthru"
 
     - name: Run test suite with "exec" and "passthru" disabled
-      run: composer run-script test
+      run: composer run-script test-no-cov
 
     - name: Re-setup PHP (only "exec" disabled)
       uses: shivammathur/setup-php@v2
@@ -124,7 +124,7 @@ jobs:
         ini-values: disable_functions="exec"
 
     - name: Run test suite with "exec" disabled
-      run: composer run-script test
+      run: composer run-script test-no-cov
 
     - name: Re-setup PHP (only "passthru" disabled)
       uses: shivammathur/setup-php@v2
@@ -134,4 +134,4 @@ jobs:
         ini-values: disable_functions="passthru"
 
     - name: Run test suite with "passthru" disabled
-      run: composer run-script test
+      run: composer run-script test-no-cov

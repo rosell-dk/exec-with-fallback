@@ -118,8 +118,17 @@ class BaseTest extends TestCase
     public function testNoOutput()
     {
         if ($this->checkAvailability()) {
-            $result = $this->runExec('echo hi 1>/dev/null', $output);
-            $this->assertSame('', $result);
+            // Disable test on Windows, as it generates error in the phpunit test:
+            // ExecWithFallback\Tests\POpenTest::testNoOutput
+            // PHPUnit\Framework\Exception: The system cannot find the path specified.
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                $this->markTestSkipped(
+                    'This test is skipped on Windows'
+                );
+            } else {
+                $result = $this->runExec('echo hi 1>/dev/null', $output);
+                $this->assertSame('', $result);
+            }
         }
     }
 
@@ -193,15 +202,25 @@ class BaseTest extends TestCase
         // I have not found a way to suppress this, other than redirecting stderr to /dev/null, like this: "2> /dev/null"
         // (see ie https://stackoverflow.com/questions/44201896/how-to-ignore-errors-in-shell-exec)
 
-        if ($this->checkAvailability()) {
-            if ($this->supportsResultCode) {
-                $result = $this->runExec('aoebuaoeu1 2> /dev/null', $output, $result_code);
-                $this->assertNotEquals(0, $result_code);  // 127 on linux, 1 on windows
-            } else {
-                $result = $this->runExec('aoebuaoeu2 2> /dev/null', $output);
-            }
-            $this->assertEquals('', $result);
+        // Disable test on Windows, as it generates error in the phpunit test:
+        // 4) ExecWithFallback\Tests\ExecWithFallbackTest::testUnknownCommand
+        // PHPUnit\Framework\Exception: The system cannot find the path specified.
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $this->markTestSkipped(
+                'This test is skipped on Windows'
+            );
+        } else {
+            if ($this->checkAvailability()) {
+                if ($this->supportsResultCode) {
+                    $result = $this->runExec('aoebuaoeu1 2> /dev/null', $output, $result_code);
+                    $this->assertNotEquals(0, $result_code);  // 127 on linux, 1 on windows
+                } else {
+                    $result = $this->runExec('aoebuaoeu2 2> /dev/null', $output);
+                }
+                $this->assertEquals('', $result);
+            }    
         }
+
     }
 
     public function testUnknownCommand2()

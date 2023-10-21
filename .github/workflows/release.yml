@@ -37,11 +37,11 @@ jobs:
     - name: Validate composer.json
       run: composer validate --strict
 
-    - name: Composer alterations for PHP 7.3-7.4
-      if: (matrix.php == '7.3') || (matrix.php == '7.4')
+    - name: Composer alterations for PHP 7.3-8.0
+      if: (matrix.php == '7.3') || (matrix.php == '7.4') || (matrix.php == '8.0')
       run: |
-        echo "Downgrading phpunit to ^9.0, which is the highest version that supports PHP 7.3-7.4"
-        composer require "phpunit/phpunit:^9.0.0" --dev --no-update
+        echo "Downgrading phpunit to ^9.6.13, which is the highest version that supports PHP 7.3-8.0"
+        composer require "phpunit/phpunit:^9.6.13" --dev --no-update
 
     - name: Composer alterations for PHP 7.2
       if: matrix.php == '7.2'

@@ -6,3 +6,4 @@ composer.phar
 /build
 coverage.clover
 .phpunit.result.cache
+.phpunit.cache

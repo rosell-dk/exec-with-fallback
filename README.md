@@ -3,7 +3,7 @@
 [![Latest Stable Version](http://poser.pugx.org/rosell-dk/exec-with-fallback/v)](https://packagist.org/packages/rosell-dk/exec-with-fallback)
 [![Minimum PHP Version](https://img.shields.io/packagist/dependency-v/rosell-dk/exec-with-fallback/php.svg)](https://packagist.org/packages/rosell-dk/exec-with-fallback)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/rosell-dk/exec-with-fallback/ci.yml?logo=GitHub&style=flat-square)](https://github.com/rosell-dk/exec-with-fallback/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/endpoint?url=https://little-b.it/exec-with-fallback/code-coverage/coverage-badge.json)](http://little-b.it/exec-with-fallback/code-coverage/coverage/index.html)
+[![Coverage](https://img.shields.io/endpoint?url=https://exec-with-fallback.littlebit.workers.dev/coverage-badge.json)](https://exec-with-fallback.littlebit.workers.dev/coverage/index.html)
 [![Software License](http://poser.pugx.org/rosell-dk/exec-with-fallback/license)](https://github.com/rosell-dk/exec-with-fallback/blob/master/LICENSE)
 [![Daily Downloads](http://poser.pugx.org/rosell-dk/exec-with-fallback/d/daily)](https://packagist.org/packages/rosell-dk/exec-with-fallback)
 
